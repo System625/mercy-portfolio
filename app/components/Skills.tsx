@@ -19,6 +19,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, index }
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.2 * index }}
       className="relative flex flex-col items-center p-8"
+      id='skills'
     >
       {/* Border patterns */}
       {index !== 1 ? (

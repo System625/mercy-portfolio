@@ -2,16 +2,47 @@
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
+import { playfair, roboto } from '../fonts';
 
 const Hero = () => {
+  const handleDownload = () => {
+    try {
+      // Create a link element
+      const link = document.createElement('a');
+      link.href = '/Abani-Mercy.pdf'; // Assuming the file is named resume.pdf
+      link.download = 'Abani_Mercy_Resume.pdf'; // Name that will appear when downloading
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Show success notification
+      toast.success('Resume downloaded successfully!', {
+        style: {
+          background: '#094D3E',
+          color: '#fff',
+        },
+      });
+    } catch (error: unknown) {
+      console.error('Error downloading resume:', error);
+      // Show error notification
+      toast.error('Failed to download resume. Please try again.', {
+        style: {
+          background: '#dc2626',
+          color: '#fff',
+        },
+      });
+    }
+  };
+
   return (
     <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="min-h-screen pt-12 md:pt-20 px-6 md:px-16"
+      className="pt-12 mb-20 md:pt-20 px-6 md:px-16"
     >
-      <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
+      <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -23,16 +54,16 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-2xl md:text-4xl font-light text-[#020202]"
+              className={`${roboto.className} text-2xl md:text-4xl font-light text-[#020202]`}
             >
-              Hello I&apos;am{' '}
-              <span className="font-bold">Abani-Elem Mercy Ugonna</span>
+              Hello I&apos;m{' '}
+              <span className={`${playfair.className} font-bold`}>Abani-Elem Mercy Ugonna</span>
             </motion.h1>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-[#094D3E] text-3xl md:text-4xl lg:text-[40px] font-playfair font-medium italic"
+              className={`${playfair.className} text-[#094D3E] text-3xl md:text-4xl lg:text-[40px] font-medium italic`}
             >
               UI/UX Designer
             </motion.h2>
@@ -78,7 +109,8 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.6 }}
-              className="bg-[#094D3E] text-white px-8 py-3 rounded hover:bg-[#094D3E]/90 transition-colors flex items-center gap-2 text-lg"
+              onClick={handleDownload}
+              className="bg-[#094D3E] text-white px-8 py-3 rounded hover:bg-[#094D3E]/90 transition-colors flex items-center gap-2 text-lg cursor-pointer"
             >
               Download CV <Icon icon="ph:download-simple" className="text-xl" />
             </motion.button>

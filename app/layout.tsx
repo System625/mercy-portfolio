@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
-import { playfair, roboto } from "./fonts";
-import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Abani Mercy Portfolio",
-  description: "UI/UX Designer Portfolio",
-};
+'use client';
+import { Toaster } from 'sonner';
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -14,8 +9,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${roboto.variable} antialiased`}>
+      <head>
+        <title>Mercy&apos;s Portfolio</title>
+        <meta name="description" content="Welcome to Mercy&apos;s Portfolio - Showcasing creative works and professional achievements" />
+      </head>
+      <body>
         {children}
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: '#094D3E',
+              color: 'white',
+              border: 'none',
+            },
+          }}
+        />
       </body>
     </html>
   );

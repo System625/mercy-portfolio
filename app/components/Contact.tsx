@@ -1,8 +1,9 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { useState, FormEvent } from 'react';
-import { playfair, roboto } from '../fonts';
+import { playfair, roboto, castellar } from '../fonts';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +11,45 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    // Reset form after submission
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      toast.success('Message sent successfully! I will get back to you soon.', {
+        style: {
+          background: '#094D3E',
+          color: '#fff',
+        },
+      });
+      
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to send message', {
+        style: {
+          background: '#dc2626',
+          color: '#fff',
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -34,7 +67,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className={`${playfair.className} text-2xl md:text-4xl text-[#094D3E] text-center mb-4`}
+          className={`${castellar.className} text-2xl md:text-4xl text-[#094D3E] text-center mb-4`}
         >
           CONTACT ME
         </motion.h2>
@@ -79,10 +112,10 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex items-center gap-4 pt-4"
             >
-              <a href="#" className="text-[#094D3E] hover:text-[#094D3E]/80">
+              <a href="https://x.com/AbaniMercy" className="text-[#094D3E] hover:text-[#094D3E]/80">
                 <Icon icon="line-md:twitter-x" className="text-2xl" />
               </a>
-              <a href="#" className="text-[#094D3E] hover:text-[#094D3E]/80">
+              <a href="https://www.facebook.com/mercy.abani.58?mibextid=LQQJ4d" className="text-[#094D3E] hover:text-[#094D3E]/80">
                 <Icon icon="ic:baseline-facebook" className="text-2xl" />
               </a>
               <a href="#" className="text-[#094D3E] hover:text-[#094D3E]/80">
@@ -107,7 +140,8 @@ const Contact = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#094D3E]"
+                disabled={isSubmitting}
+                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#094D3E] disabled:opacity-50"
               />
               <input
                 type="email"
@@ -115,7 +149,8 @@ const Contact = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#094D3E]"
+                disabled={isSubmitting}
+                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#094D3E] disabled:opacity-50"
               />
             </div>
             <textarea
@@ -123,16 +158,28 @@ const Contact = () => {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               required
+              disabled={isSubmitting}
               rows={6}
-              className="w-full p-3 border border-gray-300 rounded resize-none focus:outline-none focus:border-[#094D3E]"
+              className="w-full p-3 border border-gray-300 rounded resize-none focus:outline-none focus:border-[#094D3E] disabled:opacity-50"
             />
+            
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full bg-[#094D3E] text-white py-3 rounded hover:bg-[#094D3E]/90 transition-colors"
+              disabled={isSubmitting}
+              className={`w-full py-3 rounded transition-colors flex items-center justify-center gap-2 ${
+                isSubmitting ? 'bg-[#094D3E]/50 cursor-not-allowed' : 'bg-[#094D3E] hover:bg-[#094D3E]/90'
+              } text-white`}
             >
-              Send
+              {isSubmitting ? (
+                <>
+                  <Icon icon="eos-icons:loading" className="text-xl animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                'Send'
+              )}
             </motion.button>
           </motion.form>
         </div>
