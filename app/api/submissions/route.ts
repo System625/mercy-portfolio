@@ -1,33 +1,16 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-interface Submission {
-  id: number;
-  name: string;
-  email: string;
-  message: string;
-  timestamp: string;
-}
+import connectDB from '@/lib/mongodb';
+import Submission from '@/models/Submission';
 
 export async function GET() {
   try {
-    const filePath = path.join(process.cwd(), 'data/submissions.json');
-    
-    let submissions: Submission[] = [];
-    try {
-      const fileContent = await fs.readFile(filePath, 'utf-8');
-      submissions = JSON.parse(fileContent);
-    } catch (error) {
-      // If file doesn't exist or can't be read, return empty array
-      console.error('Error reading submissions file:', error);
-      return NextResponse.json({ submissions: [] });
-    }
+    // Connect to MongoDB
+    await connectDB();
 
-    // Sort submissions by timestamp in descending order (newest first)
-    submissions.sort((a: Submission, b: Submission) => 
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-    );
+    // Fetch all submissions, sorted by timestamp in descending order
+    const submissions = await Submission.find({})
+      .sort({ timestamp: -1 })
+      .lean();
 
     return NextResponse.json({ submissions });
   } catch (error) {

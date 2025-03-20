@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import connectDB from '@/lib/mongodb';
+import Submission from '@/models/Submission';
 
 export async function POST(request: Request) {
   try {
@@ -14,47 +14,41 @@ export async function POST(request: Request) {
       );
     }
 
-    const submission = {
-      id: Date.now(),
-      name,
-      email,
-      message,
-      timestamp: new Date().toISOString(),
-    };
-
     try {
-      // Get the path to our JSON file
-      const filePath = path.join(process.cwd(), 'data/submissions.json');
-      
-      let submissions = [];
-      try {
-        // Try to read existing submissions
-        const fileContent = await fs.readFile(filePath, 'utf-8');
-        submissions = JSON.parse(fileContent);
-      } catch (error) {
-        // If file doesn't exist or can't be read, use empty array
-        console.error('Error reading submissions file:', error);
-      }
-
-      // Add new submission
-      submissions.push(submission);
-
-      // Try to write back to file
-      await fs.writeFile(filePath, JSON.stringify(submissions, null, 2));
+      // Connect to MongoDB
+      await connectDB();
     } catch (error) {
-      // Log the error but don't fail the request
-      console.error('Error saving submission to file:', error);
+      console.error('MongoDB connection error:', error);
+      return NextResponse.json(
+        { error: 'Database connection failed', details: error instanceof Error ? error.message : 'Unknown error' },
+        { status: 500 }
+      );
     }
 
-    // Return success even if file operations fail
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Form submitted successfully! Thank you for your message.' 
-    });
+    try {
+      // Create new submission
+      const submission = await Submission.create({
+        name,
+        email,
+        message,
+      });
+
+      return NextResponse.json({ 
+        success: true, 
+        message: 'Form submitted successfully! Thank you for your message.',
+        submission 
+      });
+    } catch (error) {
+      console.error('Submission creation error:', error);
+      return NextResponse.json(
+        { error: 'Failed to save submission', details: error instanceof Error ? error.message : 'Unknown error' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Error processing form submission:', error);
     return NextResponse.json(
-      { error: 'Error processing form submission' },
+      { error: 'Error processing form submission', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
