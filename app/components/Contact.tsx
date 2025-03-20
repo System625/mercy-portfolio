@@ -118,7 +118,7 @@ const Contact = () => {
               <a href="https://www.facebook.com/mercy.abani.58?mibextid=LQQJ4d" className="text-[#094D3E] hover:text-[#094D3E]/80">
                 <Icon icon="ic:baseline-facebook" className="text-2xl" />
               </a>
-              <a href="#" className="text-[#094D3E] hover:text-[#094D3E]/80">
+              <a href="https://www.linkedin.com/in/abani-mercy-10b281357/" className="text-[#094D3E] hover:text-[#094D3E]/80">
                 <Icon icon="mdi:linkedin" className="text-2xl" />
               </a>
             </motion.div>
@@ -168,7 +168,7 @@ const Contact = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-3 rounded transition-colors flex items-center justify-center gap-2 ${
+              className={`w-full py-3 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer ${
                 isSubmitting ? 'bg-[#094D3E]/50 cursor-not-allowed' : 'bg-[#094D3E] hover:bg-[#094D3E]/90'
               } text-white`}
             >

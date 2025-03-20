@@ -18,9 +18,9 @@ export async function GET() {
     try {
       const fileContent = await fs.readFile(filePath, 'utf-8');
       submissions = JSON.parse(fileContent);
-    } catch (error: unknown) {
+    } catch (error) {
+      // If file doesn't exist or can't be read, return empty array
       console.error('Error reading submissions file:', error);
-      // If file doesn't exist, return empty array
       return NextResponse.json({ submissions: [] });
     }
 
@@ -30,7 +30,7 @@ export async function GET() {
     );
 
     return NextResponse.json({ submissions });
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Error fetching submissions:', error);
     return NextResponse.json(
       { error: 'Error fetching submissions' },

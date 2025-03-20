@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { castellar, playfair, roboto } from '../fonts';
+import { BackgroundBeams } from "../../components/ui/background-beams";
 
 interface ProjectCardProps {
   title: string;
@@ -128,13 +129,13 @@ const Projects = () => {
   ];
 
   return (
-    <section className="py-20 px-4" id="project">
+    <section className="relative py-20 px-4" id="project">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="container mx-auto"
+        className="container mx-auto relative z-10"
       >
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
@@ -159,6 +160,7 @@ const Projects = () => {
           ))}
         </div>
       </motion.div>
+      <BackgroundBeams />
     </section>
   );
 };
