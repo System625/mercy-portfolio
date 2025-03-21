@@ -115,10 +115,7 @@ const Projects = () => {
           ))}
         </div>
       </div>
-      {/* Only show BackgroundBeams on desktop */}
-      <div className="hidden md:block">
-        <BackgroundBeams />
-      </div>
+      <BackgroundBeams />
     </section>
   );
 };
