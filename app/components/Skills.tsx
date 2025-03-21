@@ -99,18 +99,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, index }
         className="text-white/80 text-center mb-6"
       >
         {description}
-      </motion.p>
-      <motion.button 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.6 + (0.2 * index) }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="text-white hover:underline"
-      >
-        Read More
-      </motion.button>
+      </motion.p>     
     </motion.div>
   );
 };
