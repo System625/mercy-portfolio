@@ -71,7 +71,7 @@ export default function WiseDashboardProject() {
                     src={image.src}
                     alt={image.alt}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </div>
                 <div className="text-center max-w-3xl mx-auto">

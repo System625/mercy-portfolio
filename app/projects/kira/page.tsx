@@ -72,7 +72,7 @@ export default function KiraProject() {
                     src={image.src}
                     alt={image.alt}
                     fill
-                    className={`${image.src.includes('mobile') ? 'object-contain' : 'object-cover'}`}
+                    className={`${image.src.includes('mobile') ? 'object-contain' : 'object-contain'}`}
                     quality={100}
                   />
                 </div>
