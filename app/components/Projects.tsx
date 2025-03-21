@@ -121,7 +121,7 @@ const Projects = () => {
       projectLink: '/projects/wise-dashboard'
     },
     {
-      title: 'KIRA',
+      title: 'KIRA(Ongoing)',
       description: 'My Kanban Board is a visual task management tool designed to help organize work, track progress, and improve productivity. It simplifies workflow with drag-and-drop tasks, real-time tracking, and team collaboration, all in a clean, user-friendly interface.',
       image: '/project-3.png',
       projectLink: '/projects/kira'
