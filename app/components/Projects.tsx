@@ -19,19 +19,26 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ 
   title, 
   description, 
-  image,   
+  image, 
+  index, 
   isReversed,
   projectLink 
 }) => {
   return (
     <motion.div 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.6, delay: 0.2 * index }}
       className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-16 items-center`}
     >
-      <div className="w-full md:w-1/2">
+      <motion.div 
+        initial={{ opacity: 0, x: isReversed ? 50 : -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 + (0.1 * index) }}
+        className="w-full md:w-1/2"
+      >
         <Image
           src={image}
           alt={title}
@@ -41,18 +48,40 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           loading="lazy"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
-      </div>
+      </motion.div>
 
-      <div className="w-full md:w-1/2 text-center md:text-left">
-        <h3 className={`${playfair.className} text-[#094D3E] text-3xl md:text-4xl font-extrabold mb-4`}>
+      <motion.div 
+        initial={{ opacity: 0, x: isReversed ? -50 : 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 + (0.1 * index) }}
+        className="w-full md:w-1/2 text-center md:text-left"
+      >
+        <motion.h3 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 + (0.1 * index) }}
+          className={`${playfair.className} text-[#094D3E] text-3xl md:text-4xl font-extrabold mb-4`}
+        >
           {title}
-        </h3>
-        <p className={`${roboto.className} text-[#494848] mb-6 text-sm md:text-xl`}>
+        </motion.h3>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 + (0.1 * index) }}
+          className={`${roboto.className} text-[#494848] mb-6 text-sm md:text-xl`}
+        >
           {description}
-        </p>
+        </motion.p>
         {projectLink ? (
           <Link href={projectLink}>
             <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 + (0.1 * index) }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`${roboto.className} bg-[#094D3E] text-white px-6 py-2 rounded hover:bg-[#094D3E]/90 transition-colors cursor-pointer`}
@@ -61,14 +90,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </motion.button>
           </Link>
         ) : (
-          <button
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 + (0.1 * index) }}
             className={`${roboto.className} bg-[#094D3E] text-white px-6 py-2 rounded hover:bg-[#094D3E]/90 transition-colors opacity-50 cursor-not-allowed`}
             disabled
           >
             Coming Soon
-          </button>
+          </motion.button>
         )}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -97,10 +130,22 @@ const Projects = () => {
 
   return (
     <section className="relative py-20 overflow-hidden" id="project">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h2 className={`${castellar.className} text-[#094D3E] text-4xl font-playfair text-center mb-16`}>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+      >
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className={`${castellar.className} text-[#094D3E] text-4xl font-playfair text-center mb-16`}
+        >
           MY PROJECT
-        </h2>
+        </motion.h2>
         <div className="space-y-20 md:space-y-32">
           {projects.map((project, index) => (
             <ProjectCard
@@ -114,8 +159,11 @@ const Projects = () => {
             />
           ))}
         </div>
+      </motion.div>
+      {/* Only show BackgroundBeams on desktop */}
+      <div className="hidden md:block">
+        <BackgroundBeams />
       </div>
-      <BackgroundBeams />
     </section>
   );
 };
