@@ -19,8 +19,7 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ 
   title, 
   description, 
-  image, 
-  index, 
+  image,   
   isReversed,
   projectLink 
 }) => {
