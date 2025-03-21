@@ -192,7 +192,7 @@ const Contact = () => {
         transition={{ duration: 0.6, delay: 0.6 }}
         className="text-center mt-20 text-sm text-gray-600"
       >
-        © 2024 Abani Mercy. All rights reserved.
+        © 2025 Abani Mercy. All rights reserved.
       </motion.footer>
     </motion.section>
   );
