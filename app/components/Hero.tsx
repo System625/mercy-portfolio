@@ -10,8 +10,8 @@ const Hero = () => {
     try {
       // Create a link element
       const link = document.createElement('a');
-      link.href = '/Abani-Mercy.pdf'; // Assuming the file is named resume.pdf
-      link.download = 'Abani_Mercy_Resume.pdf'; // Name that will appear when downloading
+      link.href = '/mercy-abani.pdf'; 
+      link.download = 'Abani_Mercy_Resume.pdf'; 
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
