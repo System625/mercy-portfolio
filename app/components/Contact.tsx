@@ -78,7 +78,7 @@ const Contact = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className={`${roboto.className} text-center text-2xl text-[#494848] mb-12`}
         >
-          You can always connect with me at any time, I&apos;m here to bring your idea to live.
+          You can always connect with me at any time, I&apos;m here to bring your ideas to life.
         </motion.p>
 
         <div className="grid md:grid-cols-2 gap-12">
